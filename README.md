@@ -1,5 +1,5 @@
 
-# Android Userland Malicious App Threat Model Case Studies
+# Android Malicious App Threat Model Case Studies
 
 > Not commonly found in the wild; more theoretical or research-oriented malicious app abuse paths.
 
