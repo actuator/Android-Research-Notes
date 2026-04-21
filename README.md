@@ -10,18 +10,26 @@
 | Task Hijacking | Task stack abuse, exported activity misuse, UI trust abuse | Credential theft, auth interception, phishing → account takeover | [KMov-g/androidapps](https://github.com/KMov-g/androidapps) |
 | Egress Phone Call EOP | Privileged telecom abuse, exported system component abuse, dialer intent misuse | Unauthorized calls, privilege escalation, restricted API access | [actuator/cve#privilege-escalation](https://github.com/actuator/cve#privilege-escalation) |
 
----
-
-### 
-
 A large part of my methodology for identifying Android trust boundary failures & privilege escalation paths was heavily influenced by Ryan Johnson’s prior research on preinstalled and privileged Android app exploitation.
 
 ___________
 
 ###
 
-A recurring pattern in multiple Android CVEs published by **fxizenta (VulDB User)** is:
+A recurring pattern in Android CVEs published by **fxizenta (VulDB User)** is hard-coded trusted backend credentials.
+
+Keys:
+`SEGMENT_WRITE_KEY`, `SegmentWriteKey`, `UPLOADCARE_PRIVATE_KEY`
+
+Examples:
 
 > “Such manipulation of the argument `SEGMENT_WRITE_KEY` leads to use of hard-coded cryptographic key.”
 
-The primitive is trust abuse through embedded client credentials: apps ship trusted write keys (such as Segment analytics keys) inside files like `BuildConfig.java` allowing attackers to extract them & send requests that backend systems may incorrectly trust as coming from the legitimate app.
+> “Such manipulation of the argument `UPLOADCARE_PRIVATE_KEY` leads to use of hard-coded cryptographic key.”
+
+CVEs:
+CVE-2026-5452, CVE-2026-5453, CVE-2026-5454, CVE-2026-5455, CVE-2026-5458, CVE-2026-5462
+
+Primitive:
+
+> embedded trusted credential → APK extraction → attacker-controlled requests treated as legitimate
